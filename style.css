@@ -1,0 +1,632 @@
+/* ═══════════════════════════════════════════════════════════════
+   ANNIVERSARY GIFT — style.css
+   Author : Anton
+   Palette: Off-white bg  #FAF8F5
+            Maroon primary #6B1C2A
+            Maroon muted   #8B2F3F
+            Maroon light   #C4758420   (transparent tint)
+   Fonts  : Great Vibes (script) + Playfair Display (serif)
+═══════════════════════════════════════════════════════════════ */
+
+/* ── 0. Reset & base ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:          #FAF8F5;
+  --maroon:      #6B1C2A;
+  --maroon-mid:  #8B2F3F;
+  --maroon-pale: rgba(107, 28, 42, 0.08);
+  --text:        #6B1C2A;
+  --text-muted:  rgba(107, 28, 42, 0.45);
+  --border:      #6B1C2A;
+
+  --font-script: 'Great Vibes', cursive;
+  --font-serif:  'Playfair Display', serif;
+
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-serif);
+  overflow: hidden; /* scroll-container handles scrolling */
+}
+
+/* ── 1. Scroll container (snap root) ─────────────────────────── */
+.scroll-container {
+  width: 100vw;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+
+  /* Hide scrollbar but keep functionality */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── 2. Page (snap child) ────────────────────────────────────── */
+.page {
+  width: 100vw;
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── 3. HEADER ───────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2.4rem 3rem 1.6rem;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Left / Right date numbers */
+.header-date {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 400;
+  color: var(--maroon);
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Center title — absolutely centred so dates don't push it */
+.header-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  text-align: center;
+  line-height: 1.15;
+  pointer-events: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.18em;
+}
+
+/* Script spans */
+.header-title .script {
+  font-family: var(--font-script);
+  font-size: clamp(1.9rem, 3.5vw, 3rem);
+  font-weight: 400;
+  color: var(--maroon);
+}
+.header-title .script.accent {
+  font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+  color: var(--maroon-mid);
+}
+
+/* Serif spans */
+.header-title .serif {
+  font-family: var(--font-serif);
+  font-size: clamp(0.8rem, 1.4vw, 1.1rem);
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.header-title .serif.bracket {
+  font-weight: 600;
+  letter-spacing: 0.22em;
+}
+
+/* Hairline divider under header */
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 3rem;
+  right: 3rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--maroon) 20%, var(--maroon) 80%, transparent);
+  opacity: 0.18;
+}
+
+/* ── 4. GALLERY WRAPPER ──────────────────────────────────────── */
+.gallery-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  padding: 2rem 0 1rem;
+}
+
+/* "Louise's gallery" label — overlaps left edge of carousel */
+.gallery-label {
+  position: absolute;
+  left: 2.4rem;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: center center;
+  z-index: 10;
+
+  background: var(--maroon);
+  color: #FAF8F5;
+  font-family: var(--font-serif);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  padding: 0.45em 1.1em;
+  border-radius: 2px;
+
+  /* subtle shadow so it reads on any photo */
+  box-shadow: 0 2px 14px rgba(107, 28, 42, 0.22);
+}
+
+/* ── 5. CAROUSEL TRACK ───────────────────────────────────────── */
+.carousel-track {
+  display: flex;
+  gap: 1.4rem;
+  width: max-content;          /* natural width of all 8 items */
+  padding: 1.5rem 0;           /* vertical breathing room only  */
+  animation: filmstrip 18s linear infinite;
+  will-change: transform;
+}
+
+/* Pause on hover for the whole gallery zone */
+.gallery-wrapper:hover .carousel-track {
+  animation-play-state: paused;
+}
+
+@keyframes filmstrip {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Individual photo card */
+.carousel-item {
+  flex-shrink: 0;
+  scroll-snap-align: center;
+  border: 2px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+
+  /* elegant lift on hover */
+  transition: transform 0.35s var(--ease-smooth),
+              box-shadow 0.35s var(--ease-smooth);
+}
+
+.carousel-item:hover {
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 18px 40px rgba(107, 28, 42, 0.18);
+}
+
+.carousel-item img {
+  display: block;
+  width: clamp(260px, 28vw, 350px);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: filter 0.4s ease;
+}
+
+.carousel-item:hover img {
+  filter: saturate(1.08) brightness(1.03);
+}
+
+/* Drag hint */
+.drag-hint {
+  text-align: center;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  margin-top: 0.6rem;
+  animation: fadeHint 2.5s ease 1.2s both;
+}
+
+@keyframes fadeHint {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── 6. PAGE FOOTER ──────────────────────────────────────────── */
+.page-footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.6rem 0 1.6rem;
+}
+
+/* ── 7. SCROLL INDICATOR ─────────────────────────────────────── */
+.scroll-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--maroon);
+  opacity: 0.55;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.25s ease;
+}
+
+.scroll-indicator:hover,
+.scroll-indicator:focus {
+  opacity: 1;
+  outline: none;
+}
+
+.scroll-arrow {
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0);   }
+  50%       { transform: translateY(7px); }
+}
+
+.scroll-text {
+  font-family: var(--font-serif);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+/* ── 8. MADE BY ──────────────────────────────────────────────── */
+.made-by {
+  font-family: var(--font-serif);
+  font-size: 0.58rem;
+  letter-spacing: 0.35em;
+  text-transform: lowercase;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+/* ── 9. PAGE ENTRANCE ANIMATIONS ─────────────────────────────── */
+#page-1 .header {
+  animation: slideDown 0.9s var(--ease-smooth) both;
+}
+#page-1 .gallery-wrapper {
+  animation: fadeUp 1s var(--ease-smooth) 0.25s both;
+}
+#page-1 .page-footer {
+  animation: fadeUp 1s var(--ease-smooth) 0.45s both;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── 10. RESPONSIVE TWEAKS ───────────────────────────────────── */
+@media (max-width: 768px) {
+  .header {
+    padding: 1.8rem 1.5rem 1.2rem;
+  }
+  .header::after {
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+  .header-title {
+    white-space: normal;
+    width: 60%;
+  }
+  .carousel-track {
+    padding: 1.2rem 3rem 1.2rem 6rem;
+  }
+  .gallery-label {
+    left: 0.8rem;
+    font-size: 0.55rem;
+  }
+  .carousel-item img {
+    width: clamp(200px, 60vw, 280px);
+    aspect-ratio: 1 / 1;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE 2 — MESSAGE SEQUENCE
+═══════════════════════════════════════════════════════════════ */
+
+/* Full-page clickable stage */
+.msg-stage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  /* Very faint maroon vignette for depth */
+  background: radial-gradient(ellipse at center,
+    var(--bg) 60%,
+    rgba(107, 28, 42, 0.055) 100%
+  );
+}
+
+/* Corner date echoes — mirror Page 1 header numbers */
+.p2-corner {
+  position: absolute;
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 400;
+  color: var(--maroon);
+  opacity: 0.15;
+  line-height: 1;
+  top: 2.4rem;
+}
+.p2-corner--left  { left:  3rem; }
+.p2-corner--right { right: 3rem; }
+
+/* Central message wrapper */
+.msg-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 0 2rem;
+  max-width: 720px;
+  width: 100%;
+}
+
+/* The message line itself */
+.msg-text {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--maroon);
+  text-align: center;
+  line-height: 1.65;
+  letter-spacing: 0.015em;
+
+  /* Cinematic fade */
+  opacity: 0;
+  transition: opacity 0.65s ease;
+}
+
+/* Loop indicator — hidden by default, revealed via JS class */
+.msg-loop {
+  font-family: var(--font-serif);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: lowercase;
+  color: var(--text-muted);
+  opacity: 0;
+  transition: opacity 0.8s ease 0.3s; /* slight delay after last line fades in */
+  pointer-events: none;
+}
+.msg-loop.msg-loop--visible {
+  opacity: 1;
+}
+
+/* "tap anywhere to begin" hint */
+.msg-hint {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+
+  font-family: var(--font-serif);
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  text-transform: lowercase;
+  color: var(--text-muted);
+
+  /* Breathe animation to draw attention */
+  animation: hintBreathe 2.4s ease-in-out infinite;
+  transition: opacity 0.5s ease;
+}
+
+@keyframes hintBreathe {
+  0%, 100% { opacity: 0.45; }
+  50%       { opacity: 0.9;  }
+}
+
+/* Subtle hover ripple on the stage */
+.msg-stage:hover .msg-text {
+  text-shadow: 0 0 40px rgba(107, 28, 42, 0.1);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .p2-corner { font-size: 1.4rem; top: 1.6rem; }
+  .p2-corner--left  { left:  1.5rem; }
+  .p2-corner--right { right: 1.5rem; }
+  .msg-text { font-size: clamp(1.1rem, 5vw, 1.5rem); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE 3 — ALBUM GRID & LYRICS
+═══════════════════════════════════════════════════════════════ */
+
+/* ── P3 layout ─────────────────────────────────────────────── */
+#page-3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.2rem;
+  padding: 2.4rem 2rem 1.6rem;
+  overflow: hidden;
+}
+
+/* ── Header ────────────────────────────────────────────────── */
+.p3-header {
+  text-align: center;
+  position: relative;
+}
+
+/* Hairline above the title */
+.p3-header::before {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 1px;
+  background: var(--maroon);
+  opacity: 0.25;
+  margin: 0 auto 1rem;
+}
+
+.p3-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.3em;
+  line-height: 1.2;
+}
+
+.p3-serif {
+  font-family: var(--font-serif);
+  font-size: clamp(0.85rem, 1.6vw, 1.15rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  opacity: 0.75;
+}
+
+.p3-script {
+  font-family: var(--font-script);
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 400;
+  color: var(--maroon);
+  line-height: 1;
+}
+
+/* ── Album grid ─────────────────────────────────────────────── */
+.p3-grid {
+  display: flex;
+  gap: clamp(1.8rem, 3vw, 3rem);
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  max-width: 1100px;
+}
+
+/* ── Single album card ─────────────────────────────────────── */
+.album-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  flex: 1;
+  max-width: 280px;
+  animation: fadeUp 0.9s var(--ease-smooth) both;
+}
+.album-item:nth-child(1) { animation-delay: 0.1s; }
+.album-item:nth-child(2) { animation-delay: 0.25s; }
+.album-item:nth-child(3) { animation-delay: 0.4s; }
+
+/* ── Cover wrapper — plain block, no tricks ─────────────────── */
+.album-cover-wrap {
+  width: 100%;
+}
+
+/* The album image — natural size, no cropping, no borders */
+.album-cover {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ── Lyrics block ──────────────────────────────────────────── */
+.album-lyrics {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0 0.3rem;
+}
+
+.lyrics-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(0.72rem, 1.1vw, 0.88rem);
+  line-height: 1.8;
+  color: var(--maroon);
+  opacity: 0.85;
+}
+
+/* Spacing between two stacked lyrics blocks (Album 2) */
+.lyrics-text--spaced {
+  margin-top: 0.9rem;
+}
+
+.lyrics-cite {
+  font-family: var(--font-serif);
+  font-size: clamp(0.58rem, 0.9vw, 0.7rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+/* ── Footer echo ───────────────────────────────────────────── */
+.p3-made-by {
+  font-family: var(--font-serif);
+  font-size: 0.58rem;
+  letter-spacing: 0.35em;
+  text-transform: lowercase;
+  color: var(--text-muted);
+  opacity: 0.55;
+  margin-top: auto;
+  padding-bottom: 0.4rem;
+}
+
+/* ── P3 Responsive ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .p3-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 2.8rem;
+    overflow-y: auto;
+  }
+  .album-item {
+    max-width: 85vw;
+    width: 85vw;
+  }
+  .album-cover-wrap::after {
+    width: 78%;
+    right: -28%;
+  }
+}
