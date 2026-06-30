@@ -85,9 +85,8 @@ body {
   font-family: var(--font-serif);
   font-size: clamp(1.8rem, 3vw, 2.6rem);
   font-weight: 400;
-  color: var(--maroon);
+  color: #8B0000;
   letter-spacing: 0.04em;
-  opacity: 0.7;
   line-height: 1;
   flex-shrink: 0;
 }
@@ -235,14 +234,14 @@ body {
   filter: saturate(1.08) brightness(1.03);
 }
 
-/* Drag hint */
+/* Hover-to-pause hint */
 .drag-hint {
   text-align: center;
   font-family: var(--font-serif);
   font-style: italic;
   font-size: 0.7rem;
   letter-spacing: 0.2em;
-  color: var(--text-muted);
+  color: #333333;
   margin-top: 0.6rem;
   animation: fadeHint 2.5s ease 1.2s both;
 }
@@ -268,8 +267,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 0.3rem;
-  color: var(--maroon);
-  opacity: 0.55;
+  color: #8B0000;
   cursor: pointer;
   user-select: none;
   transition: opacity 0.25s ease;
@@ -295,6 +293,7 @@ body {
   font-size: 0.6rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
+  color: #333333;
 }
 
 /* ── 8. MADE BY ──────────────────────────────────────────────── */
@@ -303,8 +302,7 @@ body {
   font-size: 0.58rem;
   letter-spacing: 0.35em;
   text-transform: lowercase;
-  color: var(--text-muted);
-  opacity: 0.7;
+  color: #333333;
 }
 
 /* ── 9. PAGE ENTRANCE ANIMATIONS ─────────────────────────────── */
@@ -385,8 +383,7 @@ body {
   font-family: var(--font-serif);
   font-size: clamp(1.8rem, 3vw, 2.6rem);
   font-weight: 400;
-  color: var(--maroon);
-  opacity: 0.15;
+  color: #8B0000;
   line-height: 1;
   top: 2.4rem;
 }
@@ -426,9 +423,9 @@ body {
   font-size: 0.65rem;
   letter-spacing: 0.3em;
   text-transform: lowercase;
-  color: var(--text-muted);
+  color: #333333;
   opacity: 0;
-  transition: opacity 0.8s ease 0.3s; /* slight delay after last line fades in */
+  transition: opacity 0.8s ease 0.3s;
   pointer-events: none;
 }
 .msg-loop.msg-loop--visible {
@@ -447,7 +444,7 @@ body {
   font-size: 0.62rem;
   letter-spacing: 0.3em;
   text-transform: lowercase;
-  color: var(--text-muted);
+  color: #333333;
 
   /* Breathe animation to draw attention */
   animation: hintBreathe 2.4s ease-in-out infinite;
@@ -597,8 +594,7 @@ body {
   font-size: clamp(0.58rem, 0.9vw, 0.7rem);
   font-weight: 400;
   letter-spacing: 0.12em;
-  color: var(--text-muted);
-  opacity: 0.7;
+  color: #333333;
 }
 
 /* ── Footer echo ───────────────────────────────────────────── */
@@ -607,8 +603,7 @@ body {
   font-size: 0.58rem;
   letter-spacing: 0.35em;
   text-transform: lowercase;
-  color: var(--text-muted);
-  opacity: 0.55;
+  color: #333333;
   margin-top: auto;
   padding-bottom: 0.4rem;
 }
