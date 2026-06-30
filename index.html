@@ -139,54 +139,60 @@
       <div class="p3-grid">
 
         <!-- Album 1 -->
-        <article class="album-item">
+        <article class="album-item" id="album-1">
           <div class="album-cover-wrap">
             <img src="assets/img/album_cover_1.png" alt="Arctic Monkeys – No.1 Party Anthem" class="album-cover" draggable="false" />
           </div>
-          <div class="album-lyrics">
-            <p class="lyrics-text">
-              "The look of love, the rush of blood<br>
-              The "She's with me"s, the Gallic shrug<br>
-              The shutterbugs, the Camera Plus<br>
-              The black &amp; white and the colour dodge"
-            </p>
-            <p class="lyrics-cite">Arctic Monkeys &mdash; No.1 Party Anthem</p>
+          <div class="lyrics-content">
+            <div class="album-lyrics">
+              <p class="lyrics-text">
+                "The look of love, the rush of blood<br>
+                The "She's with me"s, the Gallic shrug<br>
+                The shutterbugs, the Camera Plus<br>
+                The black &amp; white and the colour dodge"
+              </p>
+              <p class="lyrics-cite">Arctic Monkeys &mdash; No.1 Party Anthem</p>
+            </div>
           </div>
         </article>
 
         <!-- Album 2 -->
-        <article class="album-item">
+        <article class="album-item" id="album-2">
           <div class="album-cover-wrap">
             <img src="assets/img/album_cover_2.png" alt="Cigarettes After Sex" class="album-cover" draggable="false" />
           </div>
-          <div class="album-lyrics">
-            <p class="lyrics-text">
-              "A love that nobody could destroy"
-            </p>
-            <p class="lyrics-cite">Cigarettes After Sex &mdash; Sunsetz</p>
+          <div class="lyrics-content">
+            <div class="album-lyrics">
+              <p class="lyrics-text">
+                "A love that nobody could destroy"
+              </p>
+              <p class="lyrics-cite">Cigarettes After Sex &mdash; Sunsetz</p>
 
-            <p class="lyrics-text lyrics-text--spaced">
-              "Oh, when you're all alone<br>
-              I will reach for you<br>
-              When you're feeling low<br>
-              I will be there too"
-            </p>
-            <p class="lyrics-cite">Cigarettes After Sex &mdash; Apocalypse</p>
+              <p class="lyrics-text lyrics-text--spaced">
+                "Oh, when you're all alone<br>
+                I will reach for you<br>
+                When you're feeling low<br>
+                I will be there too"
+              </p>
+              <p class="lyrics-cite">Cigarettes After Sex &mdash; Apocalypse</p>
+            </div>
           </div>
         </article>
 
         <!-- Album 3 -->
-        <article class="album-item">
+        <article class="album-item" id="album-3">
           <div class="album-cover-wrap">
             <img src="assets/img/album_cover_3.png" alt="Zild – A Love Song" class="album-cover" draggable="false" />
           </div>
-          <div class="album-lyrics">
-            <p class="lyrics-text">
-              "I'll love you 'til the sun is gone<br>
-              I'll love you even it's not fun<br>
-              I'll love you 'til my whole heart bleeds"
-            </p>
-            <p class="lyrics-cite">Zild &mdash; A Love Song</p>
+          <div class="lyrics-content">
+            <div class="album-lyrics">
+              <p class="lyrics-text">
+                "I'll love you 'til the sun is gone<br>
+                I'll love you even it's not fun<br>
+                I'll love you 'til my whole heart bleeds"
+              </p>
+              <p class="lyrics-cite">Zild &mdash; A Love Song</p>
+            </div>
           </div>
         </article>
 
@@ -316,7 +322,54 @@
     }, { threshold: 0.6 });
     p2Observer.observe(page2El);
 
+
+    // ── Page 3 · Lyrics modal (mobile only) ─────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      const albums = document.querySelectorAll('.album-item');
+      const modal = document.getElementById('lyrics-modal');
+      const modalContent = document.getElementById('modal-lyrics-text');
+      const closeBtn = document.getElementById('close-modal');
+
+      if (!modal || !modalContent) return; // Safety check
+
+      albums.forEach(album => {
+        album.addEventListener('click', function() {
+          // Only fire on mobile view
+          if (window.innerWidth <= 768) {
+            const lyrics = this.querySelector('.lyrics-content');
+            if (lyrics) {
+              modalContent.innerHTML = lyrics.innerHTML;
+              modal.style.display = 'flex';
+            }
+          }
+        });
+      });
+
+      // Close when clicking the X
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          modal.style.display = 'none';
+        });
+      }
+
+      // Close when clicking outside the modal box
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    });
+
   </script>
+
+  <!-- ══ LYRICS MODAL (mobile) ══════════════════════════════════ -->
+  <div class="lyrics-modal" id="lyrics-modal" role="dialog" aria-modal="true" aria-label="Song lyrics">
+    <div class="lyrics-modal__backdrop" id="modal-backdrop"></div>
+    <div class="lyrics-modal__box">
+      <button class="lyrics-modal__close" id="close-modal" aria-label="Close">&times;</button>
+      <div class="lyrics-modal__body" id="modal-lyrics-text"></div>
+    </div>
+  </div>
 
 </body>
 </html>
